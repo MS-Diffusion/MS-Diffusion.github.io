@@ -1,0 +1,102 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MS-Diffusion</title>
+<link href="./msdiffusion/style.css" rel="stylesheet">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+
+<body>
+<div class="content">
+  <h1><strong>MS-Diffusion: Multi-subject Zero-shot Image Personalization with Layout Guidance</strong></h1>
+  <p id="authors">
+  <span>X. Wang,</span>
+  <span>Siming Fu,</span>
+  <span>Qihan Huang,</span>
+  <span>Wanggui He,</span>
+  <span>Hao Jiang,</span>
+</p> <br>
+<div style="text-align: center;">
+  <span style="font-size: 24px">Alibaba Group, Zhejiang University
+  </span>
+</div>
+  <br>
+  <img src="./msdiffusion/teaser_new.png" class="teaser-gif" style="width:100%;"><br>
+  <h3 style="text-align:center; font-size: 16px;"><em>Representative outputs showcase the capabilities of MS-Diffusion in typical applications. The MS-Diffusion framework facilitates personalization across both single-subject scenarios (the upper panel) and multi-subject contexts (the lower panel). Notably, while preserving the intricacies of subject detail, MS-Diffusion achieves a marked enhancement in textual fidelity.</em></h3>
+    <font size="+2">
+          <p style="text-align: center;">
+            <a href="https://arxiv.org/pdf/2312.16272.pdf" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="https://github.com/MS-Diffusion/MS-Diffusion" target="_blank">[Code]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+          </p>
+    </font>
+</div>
+<div class="content">
+  <h2 style="text-align:center;">Abstract</h2>
+  <p>Recent advancements in text-to-image generation models have dramatically enhanced the generation of photorealistic images from textual prompts, leading to an increased interest in personalized text-to-image applications, particularly in multi-subject scenarios. However, these advances are hindered by two main challenges: firstly, the need to accurately maintain the details of each referenced subject in accordance with the textual descriptions; and secondly, the difficulty in achieving a cohesive representation of multiple subjects in a single image without introducing inconsistencies. To address these concerns, our research introduces the MS-Diffusion framework for layout-guided zero-shot image personalization with multi-subjects. This innovative approach integrates grounding tokens with the feature resampler to maintain detail fidelity among subjects. With the layout guidance, MS-Diffusion further improves the cross-attention to adapt to the multi-subject inputs, ensuring that each subject condition acts on specific areas. The proposed multi-subject cross-attention orchestrates harmonious inter-subject compositions while preserving the control of texts. Comprehensive quantitative and qualitative experiments affirm that this method surpasses existing models in both image and text fidelity, promoting the development of personalized text-to-image generation.</p>
+</div>
+<div class="content">
+  <h2>Method</h2>
+  <p>MS-Diffusion introduces two pivotal enhancements to the model: the grounding resampler and multi-subject cross-attention mechanisms. Firstly, the grounding resampler adeptly assimilates visual information, correlating it with specific entities and spatial constraints. Subsequently, a targeted cross-attention mechanism facilitates precise interactions between the image condition and the diffusion latent within the multi-subject attention layers. Throughout the training phase, all components of the pre-existing diffusion model remain frozen.</p>
+  <br>
+  <img class="summary-img" src="./msdiffusion/overall.png" style="width:100%;"> <br>
+  <br>
+</div>
+<div class="content">
+  <h2>Single-subject Personalization</h2>
+  <p>MS-Diffusion shows excellent text fidelity in all subjects while keeping subject details, especially the living ones (dogs). It can be noticed that some elements in the background (the third line and the fourth line) also occur in the results (the grass and the teapot holder) since the entire images are referenced during the generation. Their scope of action depends on the input bounding box. In practical applications, using masked images as a condition is recommended.</p>
+<img class="summary-img" src="./msdiffusion/single_app.png" style="width:100%;">
+</div>
+<div class="content">
+  <h2>Multi-subject Personalization</h2>
+  <p>The multi-subject results encompass various combination types, fully demonstrating the generalizability and robustness of MS-Diffusion. When the scene changes freely according to the text, the details of the subject are preserved without being affected. In addition to common parallel combinations, MS-Diffusion also performs well in personalized generation for combinations with certain overlapping areas, such as "living+midwearing" and "object+scene".</p>
+  <br>
+  <img class="summary-img" src="./msdiffusion/multi_app.png" style="width:100%;"> <br>
+</div>
+<div class="content">
+  <h2>Layout Control Ability</h2>
+  <p>Qualitative examples of MS-Diffusion about the layout control ability. Bounding boxes of different colors correspond to subjects with different color borders. It can be demonstrated that MS-Diffusion can generate images that adhere to layout conditions, even in the case of two instances of the same category. However, the generated positions are not entirely accurate, especially in "a cat and a cat on the grass", illustrating that the layout condition is relatively weak compared to text and image prompts in the personalization task.</p>
+  <br>
+  <img class="summary-img" src="./msdiffusion/layout.png" style="width:100%;"> <br>
+</div>
+<div class="content">
+  <h2>Integration with ControlNet</h2>
+  <p>Generative results when integrating different control conditions. The integrated ControlNets are composed of depth, canny edge, and openpose.</p>
+  <br>
+  <img class="summary-img" src="./msdiffusion/control.png" style="width:100%;"> <br>
+</div>
+<div class="content">
+  <h2>Subject Interpolation</h2>
+  <p>Subjects interpolation in multi-subject generation. We select two dogs and two hats to conduct linear interpolation with the text set to "a dog wearing a hat on the beach".</p>
+  <br>
+  <img class="summary-img" src="./msdiffusion/interpolation.png" style="width:100%;"> <br>
+</div>
+
+<div class="content">
+  <h2>BibTex</h2>
+  <code> @misc{zhang2024ssrencoder, <br>
+      &nbsp;&nbsp;title={SSR-Encoder: Encoding Selective Subject Representation for Subject-Driven Generation},  <br>
+      &nbsp;&nbsp;author={Yuxuan Zhang and Yiren Song and Jiaming Liu and Rui Wang and Jinpeng Yu and Hao Tang and Huaxia Li and Xu Tang and Yao Hu and Han Pan and Zhongliang Jing},  <br>
+      &nbsp;&nbsp;year={2024},  <br>
+      &nbsp;&nbsp;eprint={2312.16272},  <br>
+      &nbsp;&nbsp;archivePrefix={arXiv},  <br>
+      &nbsp;&nbsp;primaryClass={cs.CV} <br>
+} </code>
+</div>
+
+<br><br>
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <!-- <div class="content"> -->
+      The website template is taken from <a href="https://dreambooth.github.io/">Dreambooth</a> and <a href="https://ssr-encoder.github.io/">SSR-Encoder</a> project page.
+      <!-- </div> -->
+    </div>
+  </div>
+</footer>
+<br><br>
+
+</body>
+</html>
